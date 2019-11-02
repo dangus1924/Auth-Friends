@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, withRouter } from 'react-router-dom';
 import './App.css';
 import Login from './component/Login'
 
@@ -13,12 +13,9 @@ function App() {
       <Switch>
       <Route exact path="/login" component={Login} />
       <Route path="/" />
-
       </Switch>
-       
-      
     </div>
   );
 }
 
-export default App;
+export default withRouter(App)
