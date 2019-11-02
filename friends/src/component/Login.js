@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import api from '../utils/api';
 
-
-
-function Login() {
+function Login(props) {
     const [data, setData] = useState({
-        email: "",
+        username: "",
         password: "",
     })
 
@@ -14,14 +12,16 @@ function Login() {
             ...data,
             [e.target.name]: e.target.value,
         })
-    }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         api()
-            .post("/login", data)
+            .post("/api/login", data)
             .then(res => {
-                localStorage.setItem("token", res.data.token)               
+                console.log(res.data)
+                localStorage.setItem("token", res.data.payload)
+                props.history.push('/home')               
             })
             .catch(err => {
                 console.log(err)
@@ -29,10 +29,27 @@ function Login() {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <input type='email' name='email' placeholder='Email' onChange={handleChange} />
-            <input type='password' name='password' placeholder='Password' onChange={handleChange} />
+            <h1>Login Form</h1>
+            <hr/>
+            <input 
+                type='text' 
+                name='username' 
+                placeholder='User Name' 
+                onChange={handleChange}
+                value={data.username}
+                />
 
-            <button type='submit'>Submit</button>
+            <input 
+                type='password' 
+                name='password' 
+                placeholder='Password' 
+                onChange={handleChange}
+                value={data.password}
+                />
+
+            <button 
+                type='submit'>Submit
+            </button>
         </form>
     )
 }
